@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+
+<h1> Categories</h1>
+
+
+<table border="1" cellpadding="10">
+<tr>
+<th>ID</th>
+<th>Nom</th>
+<th>Type</th>
+<th>Priority</th>
+<th>Actions</th>
+</tr>
+
+{% for c in categories %}
+<tr>
+<td>{{ c.id }}</td>
+<td>{{ c.nom }}</td>
+<td>{{ c.type }}</td>
+<td>{{ c.priorite }}</td>
+<td>
+<a href="{{ path('category_edit', {'id': c.id}) }}">✏️</a>
+<a href="{{ path('category_delete', {'id': c.id}) }}">🗑</a>
+</td>
+</tr>
+{% endfor %}
+
+</table>
+
+{% endblock %}

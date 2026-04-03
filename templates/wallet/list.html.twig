@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Transactions{% endblock %}
+
+{% block content %}
+
+<h1> Transactions </h1>
+
+<table border="1" cellpadding="10">
+    <tr>
+        <th>ID</th>
+        <th>Nom</th>
+        <th>Type</th>
+        <th>Montant</th>
+        <th>Category</th> 
+        <th>Date</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for t in transactions %}
+        <tr>
+            <td>{{ t.id }}</td>
+            <td>{{ t.nomTransaction }}</td>
+            <td>{{ t.type }}</td>
+            <td>{{ t.montant }}</td>
+            <td> {{ t.category ? t.category.nom : 'No category' }} </td>
+            <td>{{ t.dateTransaction|date('Y-m-d') }}</td>
+            <td>
+                <a href="/edit/{{ t.id }}">✏️</a>
+                <a href="/delete/{{ t.id }}" onclick="return confirm('Delete?')">🗑</a>
+            </td>
+        </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

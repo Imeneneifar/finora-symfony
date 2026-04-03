@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="card-container">
+
+    <div class="card balance">
+        <h3>Balance</h3>
+        <h2>{{ balance }} DT</h2>
+    </div>
+
+    <div class="card income">
+        <h3>Income</h3>
+        <h2>{{ income }} DT</h2>
+    </div>
+
+    <div class="card outcome">
+        <h3>Outcome</h3>
+        <h2>{{ outcome }} DT</h2>
+    </div>
+
+</div>
+
+{% endblock %}

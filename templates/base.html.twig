@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Finora{% endblock %}</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f6fa;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            background: #2d3436;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h2 {
+            color: white;
+            margin: 0;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: bold;
+        }
+
+        .navbar a:hover {
+            color: #00cec9;
+        }
+
+        /* CONTENT */
+        .container {
+            padding: 30px;
+        }
+
+        /* TABLE */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            margin-top: 20px;
+        }
+
+        th {
+            background: #6c5ce7;
+            color: white;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        /* BUTTON */
+        button {
+            background: #6c5ce7;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #5a4bd1;
+        }
+
+        /* CARDS (Dashboard) */
+        .card-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .card {
+            width: 220px;
+            padding: 20px;
+            border-radius: 15px;
+            color: white;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .balance {
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+        }
+
+        .income {
+            background: linear-gradient(135deg, #00b894, #55efc4);
+        }
+
+        .outcome {
+            background: linear-gradient(135deg, #d63031, #ff7675);
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <h2>💼 Finora</h2>
+
+    <div>
+    <a href="{{ path('dashboard') }}">🏠 Dashboard</a>
+    <a href="{{ path('transactions') }}">💰 Transactions</a>
+    <a href="{{ path('category_list') }}">📂 Categories</a>
+    <a href="{{ path('transaction_add') }}">➕ Add Transaction</a> 
+    <a href="{{ path('category_add') }}">➕ Add Category</a>
+</div>
+</div>
+
+<!-- CONTENT -->
+<div class="container">
+    {% block content %}{% endblock %}
+</div>
+
+</body>
+</html>
