@@ -4,15 +4,15 @@
 
 {% block content %}
 
-<h1> Transactions </h1>
+<h1>💰 Transactions</h1>
 
-<table border="1" cellpadding="10">
+<table>
     <tr>
         <th>ID</th>
         <th>Nom</th>
         <th>Type</th>
         <th>Montant</th>
-        <th>Category</th> 
+        <th>Category</th>
         <th>Date</th>
         <th>Actions</th>
     </tr>
@@ -20,14 +20,36 @@
     {% for t in transactions %}
         <tr>
             <td>{{ t.id }}</td>
+
             <td>{{ t.nomTransaction }}</td>
-            <td>{{ t.type }}</td>
-            <td>{{ t.montant }}</td>
-            <td> {{ t.category ? t.category.nom : 'No category' }} </td>
-            <td>{{ t.dateTransaction|date('Y-m-d') }}</td>
+
             <td>
-                <a href="/edit/{{ t.id }}">✏️</a>
-                <a href="/delete/{{ t.id }}" onclick="return confirm('Delete?')">🗑</a>
+                <span class="badge {{ t.type == 'INCOME' ? 'income' : 'outcome' }}">
+                    {{ t.type }}
+                </span>
+            </td>
+
+            <td>
+                <span class="badge {{ t.montant > 0 ? 'income' : 'outcome' }}">
+                    {{ t.montant }} DT
+                </span>
+            </td>
+
+            <td>
+                <span style="
+                    background:#dfe6e9;
+                    padding:5px 10px;
+                    border-radius:10px;
+                ">
+                    {{ t.category ? t.category.nom : 'No category' }}
+                </span>
+            </td>
+
+            <td>{{ t.dateTransaction|date('Y-m-d') }}</td>
+
+            <td>
+                <a href="/edit/{{ t.id }}" class="btn">✏️</a>
+                <a href="/delete/{{ t.id }}" class="btn delete" onclick="return confirm('Delete?')">🗑</a>
             </td>
         </tr>
     {% endfor %}

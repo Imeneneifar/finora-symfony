@@ -4,21 +4,23 @@
 
 {% block content %}
 
+<h1 style="text-align:center;">📊 Dashboard</h1>
+
 <div class="card-container">
 
     <div class="card balance">
-        <h3>Balance</h3>
-        <h2>{{ balance }} DT</h2>
+        <h3>💼 Balance</h3>
+        <h2>{{ balance|number_format(2, '.', ' ') }} DT</h2>
     </div>
 
-    <div class="card income">
-        <h3>Income</h3>
-        <h2>{{ income }} DT</h2>
+    <div class="card income-card">
+        <h3>🟢 Income</h3>
+        <h2>{{ income|number_format(2, '.', ' ') }} DT</h2>
     </div>
 
-    <div class="card outcome">
-        <h3>Outcome</h3>
-        <h2>{{ outcome }} DT</h2>
+    <div class="card outcome-card">
+        <h3>🔴 Outcome</h3>
+        <h2>{{ outcome|number_format(2, '.', ' ') }} DT</h2>
     </div>
 
 </div>

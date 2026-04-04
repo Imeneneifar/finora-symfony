@@ -3,28 +3,43 @@
 namespace App\Form;
 
 use App\Entity\TransactionWallet;
+use App\Entity\Category; // ✅ صحيح
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType; // ✅ صحيح
 
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use App\Entity\Category;
+use Doctrine\ORM\EntityRepository;
+
 class TransactionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-    ->add('nomTransaction')
-    ->add('type')
-    ->add('montant')
-    ->add('dateTransaction')
-    ->add('category', EntityType::class, [
-        'class' => Category::class,
-        'choice_label' => 'nom',
-    ])
-    ->add('save', SubmitType::class);
+            ->add('nomTransaction')
+
+            ->add('type', ChoiceType::class, [
+    'choices' => [
+        'Income' => 'INCOME',
+        'Outcome' => 'OUTCOME',
+    ],
+    'expanded' => true,
+    'multiple' => false,
+])
+
+            ->add('montant')
+
+            ->add('dateTransaction')
+
+            ->add('category', EntityType::class, [
+    'class' => Category::class,
+    'choice_label' => 'nom',
+    'mapped' => true, // مهم
+])
+
+            ->add('save', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)

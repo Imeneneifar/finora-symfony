@@ -13,7 +13,59 @@
 {{ form_row(form.montant) }}
 {{ form_row(form.dateTransaction) }} 
 
-{{ form_row(form.category) }}
-{{ form_end(form) }}
 
+<label><strong>Category</strong></label>
+<select id="transaction_wallet_category" name="transaction_wallet[category]">
+    <option value="">Select category</option>
+
+    {% for cat in form.category.vars.choices %}
+        <option value="{{ cat.value }}" data-type="{{ cat.data.type }}">
+            {{ cat.label }}
+        </option>
+    {% endfor %}
+</select>
+
+<button type="submit">Save</button>
+
+{{ form_end(form, {'render_rest': false}) }}
+
+{% endblock %}
+
+{% block javascripts %}
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+
+    const radios = document.querySelectorAll('input[type="radio"]');
+    const select = document.getElementById('transaction_wallet_category');
+
+    const allOptions = Array.from(select.options);
+
+    function filterCategories(type) {
+
+        select.innerHTML = "";
+
+        let placeholder = new Option("Select category", "");
+        placeholder.disabled = true;
+        placeholder.selected = true;
+        select.add(placeholder);
+
+        allOptions.forEach(option => {
+
+            if (!option.dataset.type) return;
+
+            if (option.dataset.type === type) {
+                select.add(option.cloneNode(true));
+            }
+
+        });
+    }
+
+    radios.forEach(radio => {
+        radio.addEventListener('change', function() {
+            filterCategories(this.value);
+        });
+    });
+
+});
+</script>
 {% endblock %}
