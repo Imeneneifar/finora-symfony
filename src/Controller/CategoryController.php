@@ -12,15 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CategoryController extends AbstractController
 {
-    #[Route('/categories', name: 'category_list')]
-    public function list(EntityManagerInterface $em): Response
-    {
-        $categories = $em->getRepository(Category::class)->findAll();
-
-        return $this->render('category/listC.html.twig', [
-            'categories' => $categories
-        ]);
-    }
+    
 
     #[Route('/category/add', name: 'category_add')]
     public function add(Request $req, EntityManagerInterface $em): Response
@@ -73,4 +65,31 @@ class CategoryController extends AbstractController
 
         return $this->redirectToRoute('category_list');
     }
+
+
+    #[Route('/category', name: 'category_list')]
+public function list(Request $request, EntityManagerInterface $em)
+{
+    $category = new Category();
+    $form = $this->createForm(CategoryType::class, $category);
+
+    $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+
+        $category->setUserId(1);
+
+        $em->persist($category);
+        $em->flush();
+
+        return $this->redirectToRoute('category_list');
+    }
+
+    $categories = $em->getRepository(Category::class)->findAll();
+
+    return $this->render('category/listC.html.twig', [
+        'form' => $form->createView(),
+        'categories' => $categories
+    ]);
+}
 }

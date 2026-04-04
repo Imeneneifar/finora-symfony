@@ -14,20 +14,18 @@ class CategoryType extends AbstractType
     {
        $builder
     ->add('nom')
-
     ->add('type', ChoiceType::class, [
         'choices' => [
             'Income' => 'INCOME',
             'Outcome' => 'OUTCOME',
-        ]
+        ],
     ])
-
     ->add('priorite', ChoiceType::class, [
         'choices' => [
-            'Haute ' => 'HAUTE',
-            'Moyenne ' => 'MOYENNE',
-            'Basse ' => 'BASSE',
-        ]
+            'Haute' => 'HAUTE',
+            'Moyenne' => 'MOYENNE',
+            'Basse' => 'BASSE',
+        ],
     ])
 
     ->add('save', SubmitType::class);
