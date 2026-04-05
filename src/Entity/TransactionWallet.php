@@ -4,8 +4,9 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Category;
+use App\Repository\TransactionWalletRepository;
 
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: TransactionWalletRepository::class)]
 #[ORM\Table(name: "transaction_wallet")]
 class TransactionWallet
 {
@@ -31,6 +32,11 @@ class TransactionWallet
 
     #[ORM\Column(name: "user_id")]
     private ?int $userId = null;
+
+    public function getUserId(): ?int
+{
+    return $this->userId;
+}
 
  
 

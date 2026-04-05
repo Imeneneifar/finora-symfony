@@ -24,7 +24,7 @@ class CategoryController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $category->setUserId(1); // temporaire
+            $category->setUserId(rand(1, 5));
 
             $em->persist($category);
             $em->flush();

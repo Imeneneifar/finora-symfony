@@ -20,7 +20,7 @@ public function add(Request $req, EntityManagerInterface $em): Response
 {
     $transaction = new TransactionWallet();
 
-    $transaction->setUserId(1);
+$transaction->setUserId(rand(1, 5));
     $transaction->setSource("manual");
 
     // 🟢 نجيبو categories قبل
