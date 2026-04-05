@@ -16,7 +16,8 @@ add_transaction:
 
 transactions:
     path: /transactions
-    controller: App\Controller\TransactionController::list
+    controller: App\Controller\TransactionController::index
+
 
 dashboard:
     path: /dashboard

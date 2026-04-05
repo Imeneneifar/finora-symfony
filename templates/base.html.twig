@@ -140,6 +140,10 @@
         .outcome-card {
             background: linear-gradient(135deg, #d63031, #ff7675);
         }
+        .form-container select {
+    margin-bottom: 15px;
+    padding: 6px;
+}
     </style>
 </head>
 
@@ -152,7 +156,6 @@
         <a href="{{ path('dashboard') }}">🏠 Dashboard</a>
         <a href="{{ path('transactions') }}">💰 Transactions</a>
         <a href="{{ path('category_list') }}">📂 Categories</a>
-        <a href="{{ path('transaction_add') }}">➕ Add Transaction</a>
         
     </div>
 </div>
@@ -160,7 +163,7 @@
 <div class="container">
     {% block content %}{% endblock %}
 </div>
-
 {% block javascripts %}{% endblock %}
+
 </body>
 </html>

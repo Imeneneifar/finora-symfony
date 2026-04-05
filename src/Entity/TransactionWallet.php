@@ -83,7 +83,7 @@ class TransactionWallet
         return $this->dateTransaction;
     }
 
-    public function setDateTransaction(\DateTimeInterface $dateTransaction): static
+    public function setDateTransaction(?\DateTimeInterface $dateTransaction): static
     {
         $this->dateTransaction = $dateTransaction;
         return $this;

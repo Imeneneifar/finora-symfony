@@ -16,7 +16,6 @@ class TransactionController extends AbstractController
 {
 
 
-#[Route('/add', name: 'transaction_add')]
 public function add(Request $req, EntityManagerInterface $em): Response
 {
     $transaction = new TransactionWallet();
@@ -37,7 +36,9 @@ public function add(Request $req, EntityManagerInterface $em): Response
         } else {
             $transaction->setMontant(abs($transaction->getMontant()));
         }
-
+if (!$transaction->getDateTransaction()) {
+    $transaction->setDateTransaction(new \DateTime());
+}
         $em->persist($transaction);
         $em->flush();
 
@@ -52,14 +53,60 @@ public function add(Request $req, EntityManagerInterface $em): Response
 }
 
     #[Route('/transactions', name: 'transactions')]
-    public function list(EntityManagerInterface $em): Response
-    {
-        $transactions = $em->getRepository(TransactionWallet::class)->findAll();
+public function index(Request $req, EntityManagerInterface $em): Response
+{
+    $transaction = new TransactionWallet();
 
-        return $this->render('wallet/list.html.twig', [
-            'transactions' => $transactions
-        ]);
+    $transaction->setUserId(1);
+    $transaction->setSource("manual");
+
+    $data = $req->request->all('transaction_wallet');
+$type = $data['type'] ?? 'INCOME';
+
+$form = $this->createForm(TransactionType::class, $transaction, [
+    'type' => $type,
+]);
+    $form->handleRequest($req);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+
+        if ($transaction->getType() == "OUTCOME") {
+            $transaction->setMontant(-abs($transaction->getMontant()));
+        } else {
+            $transaction->setMontant(abs($transaction->getMontant()));
+        }
+        if (!$transaction->getDateTransaction()) {
+            $transaction->setDateTransaction(new \DateTime());
+        }
+        $data = $req->request->all('transaction_wallet');
+
+$categoryId = $data['category'] ?? null;
+
+if ($categoryId) {
+    $category = $em->getRepository(Category::class)->find($categoryId);
+    $transaction->setCategory($category);
+}
+
+        if ($categoryId) {
+            $category = $em->getRepository(Category::class)->find($categoryId);
+            $transaction->setCategory($category);
+        }
+        $em->persist($transaction);
+        $em->flush();
+
+        return $this->redirectToRoute('transactions');
     }
+
+    $transactions = $em->getRepository(TransactionWallet::class)->findAll();
+
+    $categories = $em->getRepository(Category::class)->findAll();
+
+return $this->render('wallet/list.html.twig', [
+    'form' => $form->createView(),
+    'transactions' => $transactions,
+    'categories' => $categories // ✅ هذا اللي ناقصك
+]);
+}
 
    #[Route('/dashboard', name: 'dashboard')]
 public function dashboard(EntityManagerInterface $em): Response
@@ -95,7 +142,9 @@ public function dashboard(EntityManagerInterface $em): Response
             return new Response("Transaction non trouvée");
         }
 
-        $form = $this->createForm(TransactionType::class, $transaction);
+        $form = $this->createForm(TransactionType::class, $transaction, [
+    'show_type' => false,
+]);
         $form->handleRequest($req);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -135,7 +184,11 @@ public function dashboard(EntityManagerInterface $em): Response
 public function getCategoriesByType($type, EntityManagerInterface $em): JsonResponse
 {
     $categories = $em->getRepository(Category::class)
-        ->findBy(['type' => $type]);
+    ->createQueryBuilder('c')
+    ->where('c.type = :type')
+->setParameter('type', strtoupper($type))
+    ->getQuery()
+    ->getResult();
 
     $data = [];
 
